@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Satisfacción AVAPACE 2025</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React 18 & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Prop-Types -->
+    <script src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+    
+    <!-- Recharts -->
+    <script src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+    
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.5;
+        }
+
+        .premium-card {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .premium-card:hover {
+            box-shadow: 0 15px 30px -10px rgba(0, 105, 180, 0.12);
+            border-color: #cbd5e1;
+        }
+
+        .bg-avapace-gradient {
+            background: linear-gradient(135deg, #0069b4 0%, #004e89 100%);
+        }
+
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; }
+            .premium-card { box-shadow: none !important; border: 1px solid #e2e8f0 !important; border-radius: 1rem !important; }
+            .break-inside-avoid { break-inside: avoid; page-break-inside: avoid; }
+            .max-w-7xl { max-width: 100% !important; }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { 
+            BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell 
+        } = window.Recharts;
+
+        // Iconografía SVG integrada
+        const IconHeart = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>;
+        const IconUsers = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>;
+        const IconTrending = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>;
+        const IconMessage = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>;
+        const IconAward = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>;
+        const IconCheck = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
+        const IconAlert = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>;
+        const IconPrinter = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>;
+        const IconTarget = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>;
+        const IconZap = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>;
+        const IconStar = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
+
+        const DATA = {
+            stats: { nps: 62, avg: 4.15, responses: 101 },
+            blocks: [
+                { id: 1, title: "1. Ambiente Laboral", desc: "Clima de colaboración, respeto y agilidad operativa.", avg: 4.28, strengths: ["El respeto entre niveles es excelente.", "Fuerte sentimiento de apoyo mutuo."], improvements: ["Agilizar la burocracia administrativa."], data: [{ name: "Respeto", d1: 0, d2: 2, d3: 8, d4: 20, d5: 70 }, { name: "Apoyo", d1: 2, d2: 5, d3: 10, d4: 34, d5: 49 }, { name: "Agilidad", d1: 15, d2: 25, d3: 30, d4: 20, d5: 10 }] },
+                { id: 2, title: "2. Condiciones Físicas", desc: "Limpieza, mantenimiento y materiales de trabajo.", avg: 3.92, strengths: ["Niveles de limpieza muy altos.", "Seguridad y uso de EPIs correcto."], improvements: ["Renovación de equipos tecnológicos."], data: [{ name: "Limpieza", d1: 0, d2: 4, d3: 10, d4: 50, d5: 36 }, { name: "Comodidad", d1: 5, d2: 12, d3: 20, d4: 45, d5: 18 }, { name: "Materiales", d1: 8, d2: 15, d3: 25, d4: 35, d5: 17 }] },
+                { id: 3, title: "3. Relación con Responsables", desc: "Feedback y apoyo del liderazgo directo.", avg: 4.31, strengths: ["Cercanía y trato humano excelente.", "Expectativas claras."], improvements: ["Feedback formal frecuente."], data: [{ name: "Apoyo", d1: 0, d2: 3, d3: 12, d4: 30, d5: 55 }, { name: "Feedback", d1: 3, d2: 7, d3: 15, d4: 41, d5: 34 }] },
+                { id: 4, title: "4. Reconocimiento y Desarrollo", desc: "Valoración del talento y formación.", avg: 3.85, strengths: ["Planes de formación técnica.", "Reconocimiento público de logros."], improvements: ["Valoración individualizada."], data: [{ name: "Formación", d1: 2, d2: 10, d3: 22, d4: 40, d5: 26 }, { name: "Valoración", d1: 5, d2: 12, d3: 22, d4: 38, d5: 23 }] },
+                { id: 5, title: "5. Bienestar y Equilibrio", desc: "Gestión del estrés y motivación diaria.", avg: 4.08, strengths: ["Alta motivación intrínseca.", "Compromiso con el usuario."], improvements: ["Prevención del desgaste emocional."], data: [{ name: "Motivación", d1: 2, d2: 4, d3: 18, d4: 40, d5: 36 }, { name: "Estrés", d1: 10, d2: 18, d3: 32, d4: 28, d5: 12 }] },
+                { id: 6, title: "6. Comunicación Interna", desc: "Transparencia y flujo de información.", avg: 3.65, strengths: ["Objetivos claros.", "Canales oficiales establecidos."], improvements: ["Rapidez informativa entre centros."], data: [{ name: "Procedimientos", d1: 6, d2: 15, d3: 35, d4: 30, d5: 14 }, { name: "Información", d1: 10, d2: 20, d3: 35, d4: 25, d5: 10 }] },
+                { id: 7, title: "7. Conciliación e Igualdad", desc: "Respeto a la vida personal y equidad.", avg: 4.38, strengths: ["Igualdad real percibida.", "Respeto a la vida familiar."], improvements: ["Antelación en los turnos."], data: [{ name: "Igualdad", d1: 0, d2: 2, d3: 12, d4: 30, d5: 56 }, { name: "Flexibilidad", d1: 0, d2: 5, d3: 12, d4: 45, d5: 38 }] },
+                { id: 8, title: "8. Propósito y Misión", desc: "Alineación con los valores sociales de AVAPACE.", avg: 4.82, strengths: ["Orgullo masivo de pertenencia.", "Identificación total con la Misión."], improvements: ["Liderar desde el propósito."], data: [{ name: "Misión", d1: 0, d2: 0, d3: 2, d4: 15, d5: 83 }, { name: "Orgullo", d1: 0, d2: 2, d3: 5, d4: 30, d5: 63 }] }
+            ],
+            qualitative: [
+                { 
+                    id: "Q1", title: "Operatividad y Eficiencia", 
+                    summary: "La burocracia en papel es la mayor queja percibida; el equipo siente que resta tiempo valioso al cuidado directo.",
+                    actions: ["Digitalización integral (x32)", "Renovación de tablets (x18)", "Optimización WiFi (x12)"],
+                    quotes: [
+                        "Eliminar el papel para devolver tiempo a la atención directa.",
+                        "Optimizar el tiempo y los recursos para que la burocracia sea más ágil.",
+                        "PCs y tablets van muy lentos en los centros; necesitamos renovación.",
+                        "Digitalizar los registros diarios e informes de seguimiento."
+                    ]
+                },
+                { 
+                    id: "Q2", title: "Bienestar y Cultura", 
+                    summary: "Se requiere un refuerzo del apoyo emocional y más espacios de cohesión ante la carga emocional diaria.",
+                    actions: ["Grupos de descarga (x40)", "Encuentros lúdicos (x25)", "Reconocimientos (x15)"],
+                    quotes: [
+                        "Crear grupos de apoyo para gestionar la alta carga emocional de nuestro trabajo.",
+                        "Buzón de agradecimientos entre compañeros/as.",
+                        "Organizar más encuentros informales presenciales entre centros.",
+                        "Reconocimientos simbólicos por años de antigüedad."
+                    ]
+                }
+            ]
+        };
+
+        const COLORS_MAP = ['#ef4444', '#f97316', '#eab308', '#84cc16', '#15803d'];
+
+        function StatCard({ icon: IconComp, label, value, color, sub }) {
+            return (
+                <div className="premium-card p-4 flex items-center gap-3 border-l-4 border-l-[#0069b4] flex-1 min-w-[140px]">
+                    <div className={`p-2 rounded-lg ${color} bg-opacity-10 text-slate-700 shrink-0`}>
+                        <IconComp />
+                    </div>
+                    <div className="min-w-0">
+                        <p className="text-[8px] font-black text-slate-400 uppercase tracking-wider truncate">{label}</p>
+                        <div className="flex items-baseline gap-1.5">
+                            <h3 className="text-2xl font-black text-slate-800 leading-none">{value}</h3>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase">{sub}</span>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function BlockAnalysis({ block, index }) {
+            return (
+                <div className="premium-card p-6 md:p-8 mb-6 break-inside-avoid shadow-sm flex flex-col">
+                    <div className="flex justify-between items-start gap-4 mb-4">
+                        <div className="max-w-md">
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className="bg-[#0069b4] text-white w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-black shadow-md shrink-0 italic">0{index+1}</span>
+                                <h3 className="text-lg font-bold text-slate-900 uppercase tracking-tight">{block.title}</h3>
+                            </div>
+                            <p className="text-slate-500 text-[11px] font-medium leading-relaxed border-l-2 border-slate-100 pl-3">{block.desc}</p>
+                        </div>
+                        <div className="bg-blue-50 border border-blue-100 w-12 h-12 rounded-xl flex flex-col items-center justify-center shrink-0">
+                            <span className="text-base font-black text-[#0069b4] leading-none">{block.avg}</span>
+                            <span className="text-[6px] font-black uppercase opacity-60 mt-0.5 tracking-widest text-center leading-none">Media</span>
+                        </div>
+                    </div>
+
+                    <div className="h-[180px] mb-6 bg-slate-50 rounded-xl p-3 border border-slate-100 shadow-inner">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart layout="vertical" data={block.data} stackOffset="expand">
+                                <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e2e8f0" />
+                                <XAxis type="number" hide />
+                                <YAxis dataKey="name" type="category" width={85} axisLine={false} tickLine={false} tick={{fontSize: 9, fontWeight: 700, fill: '#64748b'}} />
+                                <Tooltip 
+                                    cursor={{fill: 'transparent'}} 
+                                    content={({ active, payload, label }) => {
+                                        if (active && payload && payload.length) {
+                                            const rowData = payload[0].payload;
+                                            const total = rowData.d1 + rowData.d2 + rowData.d3 + rowData.d4 + rowData.d5;
+                                            return (
+                                                <div className="bg-white p-2 border shadow-lg rounded-lg text-[9px]">
+                                                    <p className="font-bold text-slate-800 border-b pb-1 mb-1 uppercase tracking-wider">{label}</p>
+                                                    {payload.slice().reverse().map((entry, i) => (
+                                                        <div key={i} className="flex items-center justify-between gap-4 py-0.5">
+                                                            <span className="font-bold text-slate-500 uppercase">{entry.name}:</span>
+                                                            <span className="font-black" style={{color: entry.color}}>
+                                                                {total > 0 ? ((entry.value / total) * 100).toFixed(0) : 0}%
+                                                            </span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    }} 
+                                />
+                                <Bar name="M. Desacuerdo" dataKey="d1" stackId="a" fill={COLORS_MAP[0]} />
+                                <Bar name="Desacuerdo" dataKey="d2" stackId="a" fill={COLORS_MAP[1]} />
+                                <Bar name="Neutral" dataKey="d3" stackId="a" fill={COLORS_MAP[2]} />
+                                <Bar name="De Acuerdo" dataKey="d4" stackId="a" fill={COLORS_MAP[3]} />
+                                <Bar name="M. de Acuerdo" dataKey="d5" stackId="a" fill={COLORS_MAP[4]} radius={[0, 4, 4, 0]} />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-auto">
+                        <div className="bg-emerald-50/50 p-3 rounded-lg border border-emerald-100">
+                            <div className="flex items-center gap-1.5 text-emerald-700 mb-1">
+                                <IconCheck />
+                                <span className="text-[9px] font-black uppercase tracking-widest">Fortalezas</span>
+                            </div>
+                            <ul className="space-y-0.5">
+                                {block.strengths.map((s, i) => <li key={i} className="text-[10px] font-semibold text-slate-700 flex items-start gap-1.5 leading-tight"><div className="w-1 h-1 rounded-full bg-emerald-400 mt-1 shrink-0"/>{s}</li>)}
+                            </ul>
+                        </div>
+                        <div className="bg-amber-50/50 p-3 rounded-lg border border-amber-100">
+                            <div className="flex items-center gap-1.5 text-amber-700 mb-1">
+                                <IconAlert />
+                                <span className="text-[9px] font-black uppercase tracking-widest">Mejoras</span>
+                            </div>
+                            <ul className="space-y-0.5">
+                                {block.improvements.map((im, i) => <li key={i} className="text-[10px] font-semibold text-slate-700 flex items-start gap-1.5 leading-tight"><div className="w-1 h-1 rounded-full bg-amber-400 mt-1 shrink-0"/>{im}</li>)}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        function App() {
+            return (
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-20">
+                    <header className="bg-white/80 backdrop-blur-md sticky top-0 z-50 h-16 px-6 flex items-center justify-between border-b border-slate-200 no-print rounded-b-xl shadow-sm mb-6">
+                        <div className="flex items-center gap-4">
+                            <img src="logo-avapace.png" alt="Logo AVAPACE" className="h-10 w-auto object-contain" />
+                            <div className="h-6 w-px bg-slate-200 hidden sm:block" />
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest hidden sm:block text-blue-600">Informe de Satisfacción 2025</span>
+                        </div>
+                        <button onClick={() => window.print()} className="bg-avapace-gradient text-white px-5 py-2 rounded-lg flex items-center gap-3 font-black text-[10px] uppercase tracking-widest shadow-md active:scale-95 transition-all">
+                            <IconPrinter /> PDF
+                        </button>
+                    </header>
+
+                    <section className="py-8 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center mb-8 border-b border-slate-100 relative">
+                        <div className="space-y-6">
+                            <div className="inline-flex items-center gap-3 bg-blue-50 text-[#0069b4] px-4 py-2 rounded-full border border-blue-100 shadow-sm">
+                                <IconAward />
+                                <span className="text-[9px] font-black uppercase tracking-widest italic text-center">Resultados del Informe</span>
+                            </div>
+                            <h1 className="text-4xl sm:text-5xl font-black tracking-tighter leading-[0.9] text-slate-900">
+                                Vuestra voz es nuestra <span className="text-[#0069b4] italic">Misión.</span>
+                            </h1>
+                            <div className="premium-card p-8 border-l-[12px] border-l-[#0069b4] shadow-xl relative z-30 bg-white">
+                                <p className="text-base md:text-lg text-slate-700 leading-relaxed text-justify font-medium italic">
+                                    Hola equipo de Avapace, me hace mucha ilusión compartir contigo los resultados de la encuesta de satisfacción del personal. Este informe es un reflejo de vuestras voces, experiencias y del compromiso de todo el equipo. Queremos escucharte de verdad, reconocer fortalezas y encontrar oportunidades para mejorar el bienestar de esta gran familia.
+                                </p>
+                            </div>
+                            <div className="flex flex-wrap gap-3 relative z-30">
+                                <StatCard icon={IconUsers} label="Participantes" value={DATA.stats.responses} color="bg-blue-600" sub="Personas" />
+                                <StatCard icon={IconHeart} label="eNPS Score" value={`+${DATA.stats.nps}`} color="bg-rose-600" sub="Lealtad" />
+                                <StatCard icon={IconTrending} label="Media Real" value={DATA.stats.avg} color="bg-emerald-600" sub="/ 5.0" />
+                            </div>
+                        </div>
+                        <div className="flex justify-center relative">
+                            <img 
+                                src="dibujo-avapace-960.png" 
+                                alt="AVAPACE Ilustración" 
+                                className="relative w-full max-w-sm h-auto rounded-[3rem] shadow-2xl border-[10px] border-white transform rotate-1 z-20" 
+                                onError={(e) => { e.target.onerror = null; e.target.src='dibujo-avapace.png'; }}
+                            />
+                            <div className="absolute -inset-10 bg-blue-400/5 rounded-full blur-3xl z-10"></div>
+                        </div>
+                    </section>
+
+                    <section className="mb-12">
+                        <div className="w-full bg-avapace-gradient p-8 md:p-10 rounded-[2.5rem] shadow-xl text-white relative overflow-hidden group">
+                            <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
+                                <div className="shrink-0 bg-white text-[#0069b4] w-32 h-32 rounded-[2rem] flex flex-col items-center justify-center shadow-2xl">
+                                    <span className="text-5xl font-black italic">+{DATA.stats.nps}</span>
+                                    <span className="text-[10px] font-black uppercase tracking-widest mt-1 text-center leading-none text-blue-400">eNPS<br/>Score</span>
+                                </div>
+                                <div className="flex-1 space-y-3">
+                                    <div className="flex items-center gap-2">
+                                        <div className="p-2 bg-white/10 rounded-xl"><IconHeart /></div>
+                                        <h3 className="text-2xl font-black uppercase italic">Análisis de Compromiso</h3>
+                                    </div>
+                                    <p className="text-base md:text-lg leading-relaxed font-medium text-blue-50 text-justify">
+                                        Un resultado de <strong className="text-white underline decoration-rose-400 decoration-4 underline-offset-4">+{DATA.stats.nps}</strong> es excepcional. Pone en valor el altísimo nivel de <strong className="text-white">lealtad</strong> y <strong className="text-white">orgullo</strong> que sentimos por pertenecer a Avapace. Supone que somos un equipo de <strong className="text-white italic">embajadores</strong> comprometidos con la misión.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* SECCIÓN I. CUANTITATIVO */}
+                    <section className="mb-16">
+                        <div className="flex items-center gap-4 mb-8 border-b-2 border-slate-100 pb-4">
+                            <div className="bg-white p-2 rounded-lg shadow-md border border-slate-100 text-[#0069b4]"><IconAward /></div>
+                            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter italic leading-none text-blue-900">I. Análisis Cuantitativo</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {DATA.blocks.map((block, i) => <BlockAnalysis key={i} block={block} index={i} />)}
+                        </div>
+                    </section>
+
+                    {/* SECCIÓN II. CUALITATIVO */}
+                    <section className="mb-16 space-y-10">
+                        <div className="flex items-center gap-4 border-b-2 border-slate-100 pb-4">
+                            <div className="bg-slate-900 p-2 rounded-lg shadow-md text-white"><IconMessage /></div>
+                            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter italic leading-none">II. Resumen Cualitativo</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {DATA.qualitative.map((item, idx) => (
+                                <div key={idx} className="premium-card overflow-hidden flex flex-col border-l-8 border-l-slate-900 shadow-md">
+                                    <div className="p-5 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-xs font-black text-white shadow-sm italic">Q{idx+1}</div>
+                                            <h4 className="text-base font-black text-slate-900 uppercase italic truncate">{item.title}</h4>
+                                        </div>
+                                        <div className="text-blue-500 animate-pulse"><IconZap /></div>
+                                    </div>
+                                    <div className="p-6 space-y-6 flex-1 bg-white">
+                                        <p className="text-base text-slate-700 leading-relaxed font-bold italic border-l-4 border-blue-500 pl-4">{item.summary}</p>
+                                        <div className="space-y-3">
+                                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest border-b pb-1">Voces del equipo</p>
+                                            <div className="space-y-2">
+                                                {item.quotes.map((quote, qIdx) => (
+                                                    <div key={qIdx} className="bg-slate-50 p-3 rounded-lg text-[11px] italic text-slate-600 border border-slate-100 relative">
+                                                        <span className="text-blue-200 text-2xl absolute -top-1 left-1 pointer-events-none opacity-50 italic leading-none">“</span>
+                                                        <p className="pl-4 leading-snug">"{quote}"</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2 mt-auto pt-4 border-t border-slate-100">
+                                            <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest text-blue-600">Líneas de actuación priorizadas</p>
+                                            <div className="grid gap-1.5">
+                                                {item.actions.map((act, i) => (
+                                                    <div key={i} className="flex items-center gap-2.5 bg-blue-50/50 p-2 rounded-lg text-[10px] font-black border border-blue-100 text-blue-900">
+                                                        <IconZap /><span className="uppercase tracking-tighter">{act}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+
+                    {/* NUEVA SECCIÓN III. FORTALEZAS, MEJORAS Y RETOS */}
+                    <section className="mb-16 space-y-8">
+                        <div className="flex items-center gap-4 border-b-2 border-slate-100 pb-4">
+                            <div className="bg-emerald-600 p-2 rounded-lg shadow-md text-white"><IconStar /></div>
+                            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter italic leading-none">III. Resumen Ejecutivo: Fortalezas, Mejoras y Retos</h2>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {/* Fortalezas */}
+                            <div className="premium-card p-6 border-t-8 border-t-emerald-500 shadow-lg">
+                                <div className="flex items-center gap-3 mb-6 text-emerald-700">
+                                    <IconAward />
+                                    <h4 className="font-black uppercase tracking-widest text-sm">Fortalezas</h4>
+                                </div>
+                                <ul className="space-y-4">
+                                    <li className="flex items-start gap-3 text-xs font-bold text-slate-700">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-400 mt-1 shrink-0" />
+                                        Compromiso absoluto con la Misión y Valores sociales.
+                                    </li>
+                                    <li className="flex items-start gap-3 text-xs font-bold text-slate-700">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-400 mt-1 shrink-0" />
+                                        Clima de respeto y apoyo mutuo entre compañeros/as.
+                                    </li>
+                                    <li className="flex items-start gap-3 text-xs font-bold text-slate-700">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-400 mt-1 shrink-0" />
+                                        Cercanía y trato humano por parte de los responsables directos.
+                                    </li>
+                                </ul>
+                            </div>
+                            {/* Mejoras */}
+                            <div className="premium-card p-6 border-t-8 border-t-amber-500 shadow-lg">
+                                <div className="flex items-center gap-3 mb-6 text-amber-700">
+                                    <IconTarget />
+                                    <h4 className="font-black uppercase tracking-widest text-sm">Propuestas de Mejora</h4>
+                                </div>
+                                <ul className="space-y-4">
+                                    <li className="flex items-start gap-3 text-xs font-bold text-slate-700">
+                                        <div className="w-2 h-2 rounded-full bg-amber-400 mt-1 shrink-0" />
+                                        Digitalización de procesos para agilizar la carga burocrática.
+                                    </li>
+                                    <li className="flex items-start gap-3 text-xs font-bold text-slate-700">
+                                        <div className="w-2 h-2 rounded-full bg-amber-400 mt-1 shrink-0" />
+                                        Renovación planificada de dispositivos TIC y mejora de redes.
+                                    </li>
+                                    <li className="flex items-start gap-3 text-xs font-bold text-slate-700">
+                                        <div className="w-2 h-2 rounded-full bg-amber-400 mt-1 shrink-0" />
+                                        Sistematización del feedback formal y reconocimiento individual.
+                                    </li>
+                                </ul>
+                            </div>
+                            {/* Retos */}
+                            <div className="premium-card p-6 border-t-8 border-t-blue-500 shadow-lg">
+                                <div className="flex items-center gap-3 mb-6 text-blue-700">
+                                    <IconTrending />
+                                    <h4 className="font-black uppercase tracking-widest text-sm">Retos Estratégicos</h4>
+                                </div>
+                                <ul className="space-y-4">
+                                    <li className="flex items-start gap-3 text-xs font-bold text-slate-700">
+                                        <div className="w-2 h-2 rounded-full bg-blue-400 mt-1 shrink-0" />
+                                        Cuidar a quienes cuidan: Gestión proactiva de la carga emocional.
+                                    </li>
+                                    <li className="flex items-start gap-3 text-xs font-bold text-slate-700">
+                                        <div className="w-2 h-2 rounded-full bg-blue-400 mt-1 shrink-0" />
+                                        Fomentar la cohesión inter-centros en una organización creciente.
+                                    </li>
+                                    <li className="flex items-start gap-3 text-xs font-bold text-slate-700">
+                                        <div className="w-2 h-2 rounded-full bg-blue-400 mt-1 shrink-0" />
+                                        Implementar cambios tecnológicos sin perder la cercanía humana.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* SECCIÓN IV. PLAN ESTRATÉGICO */}
+                    <section className="mb-16">
+                        <div className="premium-card p-10 relative overflow-hidden border-t-8 border-t-[#0069b4] shadow-xl bg-white">
+                            <div className="flex items-center gap-4 mb-8 relative z-10">
+                                <div className="bg-avapace-gradient p-3 rounded-xl shadow-lg text-white shrink-0"><IconTarget /></div>
+                                <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter italic leading-tight">IV. Hoja de Ruta: Plan de Acción 2025</h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+                                {[
+                                    { t: "Digitalización Integral", d: "Sustitución de registros en papel por sistemas digitales integrados para optimizar el tiempo de atención." },
+                                    { t: "Bienestar Emocional", d: "Creación del 'Espacio de Escucha' mensual con apoyo profesional externo para la gestión emocional." },
+                                    { t: "Cultura de Valoración", d: "Lanzamiento de hitos de antigüedad y sistema de agradecimientos internos para fortalecer la unión." }
+                                ].map((obj, idx) => (
+                                    <div key={idx} className="group p-5 rounded-2xl bg-slate-50 border-2 border-slate-100 space-y-3 transition-all hover:bg-white hover:shadow-md">
+                                        <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-md text-base font-black text-[#0069b4] italic border border-slate-100 group-hover:bg-[#0069b4] group-hover:text-white transition-all">{idx + 1}</div>
+                                        <div className="space-y-1">
+                                            <h4 className="text-sm font-black text-slate-900 uppercase italic leading-tight">{obj.t}</h4>
+                                            <p className="text-[11px] text-slate-500 font-bold leading-relaxed">{obj.d}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer className="py-12 border-t-4 border-slate-100 flex flex-col items-center gap-6 no-print opacity-70">
+                        <div className="flex flex-col sm:flex-row items-center gap-6">
+                            <div className="bg-[#0069b4] w-8 h-8 rounded-lg flex items-center justify-center text-white font-black italic shadow-lg text-base leading-none">A</div>
+                            <img src="logo-avapace.png" alt="Logo AVAPACE" className="h-6 w-auto grayscale" />
+                            <div className="h-4 w-px bg-slate-300 hidden sm:block" />
+                            <span className="text-xl font-black text-slate-300 uppercase tracking-widest italic leading-none">2025</span>
+                        </div>
+                        <p className="text-[10px] font-black text-[#0069b4] uppercase tracking-[0.4em] text-center italic opacity-60">Escucha Activa • Impacto Real • Misión Compartida</p>
+                    </footer>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
