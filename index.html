@@ -212,7 +212,9 @@
                 "Fomentar la cultura del agradecimiento y el refuerzo positivo.",
                 "Alinear los objetivos individuales con la Misión de la entidad.",
                 "Gracias por escucharnos y realizar este tipo de encuestas.",
-                "Juntos hacemos que AVAPACE sea cada día un lugar mejor para todos."
+                "Juntos hacemos que AVAPACE sea cada día un lugar mejor para todos.",
+                "Aportamos corazón y profesionalidad en cada acción.",
+                "El compromiso de AVAPACE es el nuestro."
             ]
         };
 
@@ -313,7 +315,7 @@
                                 <p className="text-slate-700 text-[11px] italic font-semibold leading-relaxed pl-2 -mt-4">
                                     {comment}
                                 </p>
-                                <div className="text-blue-100 text-4xl mt-2 italic leading-none text-right opacity-50">”</div>
+                                <div className="text-blue-100 text-4xl mt-2 italic text-right opacity-50">”</div>
                             </div>
                         ))}
                     </div>
@@ -351,11 +353,11 @@
                                     alt="Ilustración" 
                                     className="w-full h-full object-cover" 
                                     onError={(e) => { 
-                                        e.target.style.display = 'none'; 
+                                        e.target.style.visibility = 'hidden'; 
                                         e.target.nextElementSibling.style.display = 'flex'; 
                                     }}
                                 />
-                                <span className="text-slate-300 font-bold uppercase tracking-widest text-xs hidden">Ilustración AVAPACE</span>
+                                <span className="text-slate-300 font-bold uppercase tracking-widest text-xs hidden absolute inset-0 items-center justify-center text-center p-4">Archivo de imagen no encontrado<br/><small>(Verifica el nombre del archivo)</small></span>
                             </div>
                             <div className="absolute -inset-10 bg-blue-400/5 rounded-full blur-3xl z-10"></div>
                         </div>
@@ -540,9 +542,9 @@
 
         function App() {
             const [activeTab, setActiveTab] = useState('informe');
-            // Rutas relativas explícitas para GitHub Pages
-            const [logo, setLogo] = useState('./logo-avapace.png');
-            const [illustration, setIllustration] = useState('./dibujo-avapace-960.png');
+            // Usamos los nombres exactos sin prefijos para mayor compatibilidad
+            const [logo, setLogo] = useState('logo-avapace.png');
+            const [illustration, setIllustration] = useState('dibujo-avapace-960.png');
             const [isEditor, setIsEditor] = useState(false);
             
             const logoInputRef = useRef(null);
@@ -580,12 +582,12 @@
                                     alt="Logo" 
                                     className="h-10 w-auto object-contain" 
                                     onError={(e) => { 
-                                        e.target.style.display = 'none'; 
+                                        e.target.style.visibility = 'hidden'; 
                                         e.target.nextElementSibling.style.display = 'flex'; 
                                     }}
                                 />
                                 <div className="h-10 w-24 bg-slate-100 rounded items-center justify-center border-2 border-dashed border-slate-200 no-print hidden">
-                                    <span className="text-[8px] font-black text-slate-400 uppercase">Logo</span>
+                                    <span className="text-[8px] font-black text-slate-400 uppercase">Logo no detectado</span>
                                 </div>
                             </div>
                             
@@ -661,7 +663,7 @@
                                     alt="Logo footer" 
                                     className="h-6 w-auto grayscale opacity-50" 
                                     onError={(e) => { 
-                                        e.target.style.display = 'none'; 
+                                        e.target.style.visibility = 'hidden'; 
                                         e.target.nextElementSibling.style.display = 'block'; 
                                     }}
                                 />
