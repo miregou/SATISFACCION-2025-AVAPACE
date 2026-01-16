@@ -332,7 +332,7 @@ function App() {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
                                 {[
                                     { t: "Digitalización Integral", d: "Sustitución de registros en papel por sistemas digitales integrados para optimizar el tiempo de atención." },
-                                    { t: "Bienestar Emocional", d: "Creación del 'Espacio de Escucha' mensual con apoyo profesional externo para la gestión emocional." },
+                                    { t: "Bienestar Emocional", d: "Creación del 'Espacio de Escucha' anual con apoyo profesional externo para la gestión emocional. Promoviendo una organización emocionalmente responsable." },
                                     {
                                         t: "Cultura de Valoración",
                                         d: (
