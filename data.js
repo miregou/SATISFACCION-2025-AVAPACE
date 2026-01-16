@@ -27,7 +27,7 @@ const DATA = {
         {
             id: "Q1", title: "Operatividad y Eficiencia",
             summary: "La burocracia en papel es la mayor queja percibida; el equipo siente que resta tiempo valioso al cuidado directo.",
-            actions: ["Digitalización integral (x32)", "Renovación de tablets (x18)", "Optimización WiFi (x12)"],
+            actions: ["Digitalización integral (32 participantes)", "Renovación de tablets (18 participantes)", "Optimización WiFi (12 participantes)"],
             quotes: [
                 "Eliminar el papel para devolver tiempo a la atención directa.",
                 "Optimizar el tiempo y los recursos para que la burocracia sea más ágil.",
@@ -38,7 +38,7 @@ const DATA = {
         {
             id: "Q2", title: "Bienestar y Cultura",
             summary: "Se requiere un refuerzo del apoyo emocional y más espacios de cohesión ante la carga emocional diaria.",
-            actions: ["Grupos de descarga (x40)", "Encuentros lúdicos (x25)", "Reconocimientos (x15)"],
+            actions: ["Grupos de descarga (40 participantes)", "Encuentros lúdicos (25 participantes)", "Reconocimientos (15 participantes)"],
             quotes: [
                 "Crear grupos de apoyo para gestionar la alta carga emocional de nuestro trabajo.",
                 "Buzón de agradecimientos entre compañeros/as.",

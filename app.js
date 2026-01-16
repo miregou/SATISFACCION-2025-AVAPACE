@@ -158,7 +158,8 @@ function App() {
                             <div className="flex flex-wrap gap-3 relative z-30">
                                 <StatCard icon={IconUsers} label="Participantes" value={DATA.stats.responses} color="bg-blue-600" sub="Personas" />
                                 <StatCard icon={IconHeart} label="eNPS Score" value={`+${DATA.stats.nps}`} color="bg-rose-600" sub="Lealtad" />
-                                <StatCard icon={IconTrending} label="Media Real" value={DATA.stats.avg} color="bg-emerald-600" sub="/ 5.0" />
+                                <StatCard icon={IconTrending} label="Media Real" value={DATA.stats.avg} color="bg-emerald-600" sub={<span>/ <span className="text-lg">5.0</span></span>} />
+
                             </div>
                         </div>
                         <div className="flex justify-center relative">
@@ -326,19 +327,31 @@ function App() {
                         <div className="premium-card p-10 relative overflow-hidden border-t-8 border-t-[#0069b4] shadow-xl bg-white">
                             <div className="flex items-center gap-4 mb-8 relative z-10">
                                 <div className="bg-avapace-gradient p-3 rounded-xl shadow-lg text-white shrink-0"><IconTarget /></div>
-                                <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter italic leading-tight">IV. Hoja de Ruta: Plan de Acción 2025</h2>
+                                <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter italic leading-tight">VI. Hoja de Ruta: Plan de Gestión 2026</h2>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
                                 {[
                                     { t: "Digitalización Integral", d: "Sustitución de registros en papel por sistemas digitales integrados para optimizar el tiempo de atención." },
                                     { t: "Bienestar Emocional", d: "Creación del 'Espacio de Escucha' mensual con apoyo profesional externo para la gestión emocional." },
-                                    { t: "Cultura de Valoración", d: "Lanzamiento de hitos de antigüedad y sistema de agradecimientos internos para fortalecer la unión." }
+                                    {
+                                        t: "Cultura de Valoración",
+                                        d: (
+                                            <>
+                                                Queremos que cada persona se sienta vista y valorada por su dedicación diaria, reconociendo el corazón que ponéis en cada atención:
+                                                <ul className="list-disc pl-3 mt-2 space-y-1 opacity-90">
+                                                    <li>Espacios de agradecimiento compartido para poner en valor el apoyo mutuo del día a día.</li>
+                                                    <li>Conversaciones de desarrollo constructivas y cercanas, centradas en vuestras fortalezas y en cómo os sentís en el equipo.</li>
+                                                    <li>Celebración de vuestra trayectoria en AVAPACE, honrando los años de vida y compromiso que hemos caminado juntos.</li>
+                                                </ul>
+                                            </>
+                                        )
+                                    }
                                 ].map((obj, idx) => (
                                     <div key={idx} className="group p-5 rounded-2xl bg-slate-50 border-2 border-slate-100 space-y-3 transition-all hover:bg-white hover:shadow-md">
                                         <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-md text-base font-black text-[#0069b4] italic border border-slate-100 group-hover:bg-[#0069b4] group-hover:text-white transition-all">{idx + 1}</div>
                                         <div className="space-y-1">
                                             <h4 className="text-sm font-black text-slate-900 uppercase italic leading-tight">{obj.t}</h4>
-                                            <p className="text-[11px] text-slate-500 font-bold leading-relaxed">{obj.d}</p>
+                                            <div className="text-[11px] text-slate-500 font-bold leading-relaxed">{obj.d}</div>
                                         </div>
                                     </div>
                                 ))}
